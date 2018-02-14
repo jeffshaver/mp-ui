@@ -20,16 +20,22 @@ const menuItems = [
 ]
 const styles = theme => ({
   drawerHeader: {
-    padding: '16px',
-    textAlign: 'left'
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: '0 16px',
+    ...theme.mixins.toolbar
   },
   drawerHeaderLink: {
-    color: 'inherit',
+    color: grey[600],
     textDecoration: 'inherit',
     '&:hover': {
       color: theme.palette.primary.main,
       textDecoration: 'underline'
     }
+  },
+  paper: {
+    width: 250
   }
 })
 
@@ -38,25 +44,35 @@ class LeftNav extends Component {
     const { classes } = this.props
 
     return (
-      <Drawer anchor="left" variant="permanent">
-        <div className={classes.drawerHeader}>
-          <a href="/" className={classes.drawerHeaderLink}>
-            <Typography className={classes.drawerHeaderLink} variant="title">
-              MP-UI
-            </Typography>
-          </a>
+      <Drawer
+        anchor="left"
+        variant="permanent"
+        classes={{ paper: classes.paper }}
+      >
+        <div className={classes.drawerInner}>
+          <div className={classes.drawerHeader}>
+            <a href="/" className={classes.drawerHeaderLink}>
+              <Typography className={classes.drawerHeaderLink} variant="title">
+                MP-UI
+              </Typography>
+            </a>
+          </div>
+          <Divider />
+          <List component="nav" dense={true}>
+            {menuItems.map((menuItem, i) => (
+              <Fragment key={menuItem}>
+                {/* {i !== 0 && <Divider light={true} />} */}
+                <ListItem button>
+                  <ListItemText
+                    primary={
+                      <Typography variant="body2">{menuItem}</Typography>
+                    }
+                  />
+                </ListItem>
+              </Fragment>
+            ))}
+          </List>
         </div>
-        <Divider />
-        <List component="nav" dense={true}>
-          {menuItems.map((menuItem, i) => (
-            <Fragment key={menuItem}>
-              {/* {i !== 0 && <Divider light={true} />} */}
-              <ListItem button>
-                <ListItemText primary={menuItem} />
-              </ListItem>
-            </Fragment>
-          ))}
-        </List>
       </Drawer>
     )
   }
