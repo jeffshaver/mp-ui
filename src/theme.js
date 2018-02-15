@@ -2,7 +2,7 @@ import { createMuiTheme } from 'material-ui/styles'
 import pink from 'material-ui/colors/pink'
 import teal from 'material-ui/colors/teal'
 
-export default createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     primary: teal,
     secondary: pink,
@@ -15,3 +15,5 @@ export default createMuiTheme({
     tonalOffset: 0.2
   }
 })
+
+export default theme

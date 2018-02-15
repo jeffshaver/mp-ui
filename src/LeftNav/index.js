@@ -1,22 +1,26 @@
+// React
+import React, { Component } from 'react'
+// Material-UI
 import Divider from 'material-ui/Divider'
 import Drawer from 'material-ui/Drawer'
 import grey from 'material-ui/colors/grey'
 import List, { ListItem, ListItemText } from 'material-ui/List'
-import React, { Component, Fragment } from 'react'
 import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
+// Components
+import Link from '../Link'
 
 const menuItems = [
-  'Daemon Sets',
-  'Deployments',
-  'Jobs',
-  'Namespaces',
-  'Persistent Volumes',
-  'Pods',
-  'Replica Sets',
-  'Replication Controllers',
-  'Roles',
-  'Stateful Sets'
+  { title: 'Daemon Sets', path: 'daemon-sets' },
+  { title: 'Deployments', path: 'deployments' },
+  { title: 'Jobs', path: 'jobs' },
+  { title: 'Namespaces', path: 'namespaces' },
+  { title: 'Persistent Volumes', path: 'persistent-volumes' },
+  { title: 'Pods', path: 'pods' },
+  { title: 'Replica Sets', path: 'replica-sets' },
+  { title: 'Replication Controllers', path: 'replication-controllers' },
+  { title: 'Roles', path: 'roles' },
+  { title: 'Stateful Sets', path: 'stateful-sets' }
 ]
 const styles = theme => ({
   drawerHeader: {
@@ -51,25 +55,22 @@ class LeftNav extends Component {
       >
         <div className={classes.drawerInner}>
           <div className={classes.drawerHeader}>
-            <a href="/" className={classes.drawerHeaderLink}>
+            <Link to="/" className={classes.drawerHeaderLink}>
               <Typography className={classes.drawerHeaderLink} variant="title">
                 MP-UI
               </Typography>
-            </a>
+            </Link>
           </div>
           <Divider />
           <List component="nav" dense={true}>
-            {menuItems.map((menuItem, i) => (
-              <Fragment key={menuItem}>
-                {/* {i !== 0 && <Divider light={true} />} */}
+            {menuItems.map(({ path, title }, i) => (
+              <Link key={title} to={path}>
                 <ListItem button>
                   <ListItemText
-                    primary={
-                      <Typography variant="body2">{menuItem}</Typography>
-                    }
+                    primary={<Typography variant="body2">{title}</Typography>}
                   />
                 </ListItem>
-              </Fragment>
+              </Link>
             ))}
           </List>
         </div>

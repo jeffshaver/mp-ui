@@ -1,22 +1,15 @@
 // React
 import React, { Component } from 'react'
 // Material-UI
-import Card from 'material-ui/Card'
 import Grid from 'material-ui/Grid'
-import Table, {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from 'material-ui/Table'
-import Typography from 'material-ui/Typography'
 // Components
 import GridWrapper from '../GridWrapper'
+import Resource from '../Resource'
 // Utilities
 import moment from 'moment'
-import nestedProperty from 'nested-property'
 // Data
 import deploymentColumns from '../data/columns/deployments'
+import jobColumns from '../data/columns/jobs'
 import podColumns from '../data/columns/pods'
 
 const columns = [
@@ -70,7 +63,7 @@ const resources = [
   },
   {
     kind: 'Jobs',
-    columns
+    columns: jobColumns
   },
   {
     kind: 'Pods',
@@ -103,76 +96,12 @@ class Home extends Component {
     return (
       <GridWrapper>
         <Grid container spacing={24}>
-          {resources.map(({ kind, columns, sort }) => (
-            <Grid item xs={12} key={kind}>
-              <Card>
-                <Typography variant="headline" style={{ textAlign: 'center' }}>
-                  {kind}
-                </Typography>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      {columns.map(({ title, type }) => (
-                        <TableCell key={title} numeric={type === 'numeric'}>
-                          {title}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {(() => {
-                      const rowData = (
-                        data[kind.replace(' ', '').toLowerCase()] || []
-                      ).sort(sort)
-
-                      if (rowData.length === 0) {
-                        return (
-                          <TableRow>
-                            <TableCell colSpan={columns.length}>
-                              <Typography
-                                variant="subheading"
-                                style={{ textAlign: 'center' }}
-                              >
-                                No Data
-                              </Typography>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      }
-
-                      return rowData.map(data => (
-                        <TableRow
-                          key={data.metadata.namespace + data.metadata.name}
-                        >
-                          {columns.map(
-                            ({ defaultValue, key, modifier, title, type }) => (
-                              <TableCell
-                                key={key + title}
-                                numeric={type === 'numeric'}
-                              >
-                                {(() => {
-                                  if (!key) {
-                                    return defaultValue
-                                  }
-
-                                  const value =
-                                    nestedProperty.get(data, key) || 0
-
-                                  if (modifier) {
-                                    return modifier(value, data)
-                                  }
-
-                                  return value
-                                })()}
-                              </TableCell>
-                            )
-                          )}
-                        </TableRow>
-                      ))
-                    })()}
-                  </TableBody>
-                </Table>
-              </Card>
+          {resources.map(resource => (
+            <Grid item xs={12} key={resource.kind}>
+              <Resource
+                resource={resource}
+                data={data[resource.kind.replace(' ', '').toLowerCase()]}
+              />
             </Grid>
           ))}
         </Grid>

@@ -1,5 +1,6 @@
 // React
 import React, { Component } from 'react'
+import { Route, Router, Switch } from 'react-router-dom'
 // Material-UI
 import AppBar from 'material-ui/AppBar'
 import grey from 'material-ui/colors/grey'
@@ -10,8 +11,56 @@ import Typography from 'material-ui/Typography'
 // Components
 import Home from './Home'
 import LeftNav from './LeftNav'
+import ResourcePage from './ResourcePage'
 // Utilities
+import history from './history'
 import theme from './theme'
+// Data
+import daemonSetResource from './data/resource-types/daemon-sets'
+import deploymentResource from './data/resource-types/deployments'
+import jobResource from './data/resource-types/jobs'
+import podResource from './data/resource-types/pods'
+import replicaSetResource from './data/resource-types/replica-sets'
+import replicationControllerResource from './data/resource-types/replication-controllers'
+import statefulSetResource from './data/resource-types/stateful-sets'
+
+const routes = [
+  {
+    dataKey: 'daemonsets',
+    path: '/daemon-sets',
+    resource: daemonSetResource
+  },
+  {
+    dataKey: 'deployments',
+    path: '/deployments',
+    resource: deploymentResource
+  },
+  {
+    dataKey: 'jobs',
+    path: '/jobs',
+    resource: jobResource
+  },
+  {
+    dataKey: 'pods',
+    path: '/pods',
+    resource: podResource
+  },
+  {
+    dataKey: 'replicasets',
+    path: '/replica-sets',
+    resource: replicaSetResource
+  },
+  {
+    dataKey: 'replicationcontrollers',
+    path: '/replication-controllers',
+    resource: replicationControllerResource
+  },
+  {
+    dataKey: 'statefulsets',
+    path: '/stateful-sets',
+    resource: statefulSetResource
+  }
+]
 
 const styles = {
   app: {
@@ -49,6 +98,7 @@ class App extends Component {
   render() {
     const { classes } = this.props
     const { data } = this.state
+
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app">
@@ -66,7 +116,21 @@ class App extends Component {
             </Toolbar>
           </AppBar>
           <div className={classes.content}>
-            <Home data={data} />
+            <Router history={history}>
+              <Switch>
+                <Route exact path="/" render={() => <Home data={data} />} />
+                {routes.map(({ dataKey, path, resource }) => (
+                  <Route
+                    exact
+                    key={path}
+                    path={path}
+                    render={() => (
+                      <ResourcePage resource={resource} data={data[dataKey]} />
+                    )}
+                  />
+                ))}
+              </Switch>
+            </Router>
           </div>
         </div>
       </MuiThemeProvider>
