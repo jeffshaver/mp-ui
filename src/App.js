@@ -11,7 +11,7 @@ import Typography from 'material-ui/Typography'
 // Components
 import Home from './Home'
 import LeftNav from './LeftNav'
-import ResourcePage from './ResourcePage'
+import ResourceListPage from './ResourceListPage'
 // Utilities
 import history from './history'
 import theme from './theme'
@@ -125,7 +125,10 @@ class App extends Component {
                     key={path}
                     path={path}
                     render={() => (
-                      <ResourcePage resource={resource} data={data[dataKey]} />
+                      <ResourceListPage
+                        resource={resource}
+                        data={data[dataKey]}
+                      />
                     )}
                   />
                 ))}
