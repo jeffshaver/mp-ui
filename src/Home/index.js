@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Grid from 'material-ui/Grid'
 // Components
 import GridWrapper from '../GridWrapper'
-import Resource from '../Resource'
+import ResourceList from '../ResourceList'
 // Utilities
 import moment from 'moment'
 // Data
@@ -98,7 +98,7 @@ class Home extends Component {
         <Grid container spacing={24}>
           {resources.map(resource => (
             <Grid item xs={12} key={resource.kind}>
-              <Resource
+              <ResourceList
                 resource={resource}
                 data={data[resource.kind.replace(' ', '').toLowerCase()]}
               />

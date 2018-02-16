@@ -1,5 +1,6 @@
 // React
 import React from 'react'
+import PropTypes from 'prop-types'
 // Material-UI
 import { withStyles } from 'material-ui/styles'
 // Utilities
@@ -22,6 +23,12 @@ const Link = props => {
       {children}
     </a>
   )
+}
+
+Link.propTypes = {
+  children: PropTypes.node.isRequired,
+  classes: PropTypes.object.isRequired,
+  to: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(Link)
